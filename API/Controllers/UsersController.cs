@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")] //hit as /api/users
+    [Route("api/[controller]")] //hit as GET /api/users
     public class UsersController : ControllerBase
     {
         private readonly DataContext _context;
