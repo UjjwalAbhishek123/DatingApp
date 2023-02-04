@@ -1,5 +1,11 @@
 using API.Data;
+using API.Interfaces;
+using API.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
+using API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,14 +13,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-//adding service to our container
-builder.Services.AddDbContext<DataContext>(opt =>
-{
-    opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
+/* builder services for AddDbContext, AddCors, AddScoped are moved to ApplicationServiceExtension in Extensions folder */
 
-builder.Services.AddCors();
+builder.Services.AddApplicationServices(builder.Configuration);//extension of AddApplicationService
 
+/* builder services for Identity and Authorization is moved to IDentityServiceExtensions in Extensions folder */
+
+builder.Services.AddIdentityServices(builder.Configuration); //extension of IdentityServiceExtensions
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
@@ -34,7 +39,8 @@ app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("ht
 
 //app.UseHttpsRedirection();
 
-//app.UseAuthorization();
+app.UseAuthentication(); //asks for valid token
+app.UseAuthorization(); //asks about certain permits/access
 
 app.MapControllers();
 
