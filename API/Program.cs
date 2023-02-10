@@ -31,13 +31,14 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 
 app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
-//if (app.Environment.IsDevelopment())
-//{
-//    app.UseSwagger();
-//    app.UseSwaggerUI();
-//}
 
-//app.UseHttpsRedirection();
+// if (app.Environment.IsDevelopment())
+// {
+//     app.UseSwagger();
+//     app.UseSwaggerUI();
+// }
+
+// app.UseHttpsRedirection();
 
 app.UseAuthentication(); //asks for valid token
 app.UseAuthorization(); //asks about certain permits/access
